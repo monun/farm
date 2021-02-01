@@ -1,4 +1,4 @@
-package com.github.noonmaru.farm
+package com.github.monun.farm
 
 object Farm {
     lateinit var manager: FarmManager

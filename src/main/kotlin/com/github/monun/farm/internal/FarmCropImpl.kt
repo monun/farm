@@ -1,9 +1,9 @@
-package com.github.noonmaru.farm.internal
+package com.github.monun.farm.internal
 
-import com.github.noonmaru.farm.CropStage
-import com.github.noonmaru.farm.CropType
-import com.github.noonmaru.farm.FarmCrop
-import com.github.noonmaru.farm.util.UpstreamReference
+import com.github.monun.farm.CropStage
+import com.github.monun.farm.CropType
+import com.github.monun.farm.FarmCrop
+import com.github.monun.farm.util.UpstreamReference
 import org.bukkit.Effect
 
 class FarmCropImpl(

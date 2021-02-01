@@ -1,6 +1,6 @@
-package com.github.noonmaru.farm.internal
+package com.github.monun.farm.internal
 
-import com.github.noonmaru.farm.CropType
+import com.github.monun.farm.CropType
 import org.bukkit.Effect
 import org.bukkit.Material
 import org.bukkit.block.data.Ageable

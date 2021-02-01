@@ -1,7 +1,7 @@
-package com.github.noonmaru.farm.internal
+package com.github.monun.farm.internal
 
-import com.github.noonmaru.farm.CropType
-import com.github.noonmaru.farm.FarmWorld
+import com.github.monun.farm.CropType
+import com.github.monun.farm.FarmWorld
 import com.google.common.collect.ImmutableList
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet

@@ -1,7 +1,7 @@
-package com.github.noonmaru.farm.internal
+package com.github.monun.farm.internal
 
-import com.github.noonmaru.farm.FarmChunk
-import com.github.noonmaru.farm.util.UpstreamReference
+import com.github.monun.farm.FarmChunk
+import com.github.monun.farm.util.UpstreamReference
 import org.bukkit.Chunk
 import java.util.*
 

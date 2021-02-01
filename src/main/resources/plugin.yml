@@ -1,8 +1,8 @@
 name: $pluginName
 main: $pluginMain
-depend: [Kotlin, Tap]
-api-version: '1.15'
-version: $pluginVersion
+depend: [Kotlin]
+api-version: '1.16'
+version: $version
 commands:
   farm:
     usage: /<command> help

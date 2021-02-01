@@ -1,5 +1,6 @@
-package com.github.noonmaru.farm.internal
+package com.github.monun.farm.internal
 
+import com.github.monun.tap.fake.FakeEntityServer
 import java.util.*
 import kotlin.math.ceil
 import kotlin.math.max
@@ -20,6 +21,8 @@ internal class CropTask : Runnable {
     private var partialIndex = 0.0
 
     private var partialIndexPerTick = 1.0
+
+    internal lateinit var fakeEntityServer: FakeEntityServer
 
     init {
         createNewQueue()
@@ -73,6 +76,8 @@ internal class CropTask : Runnable {
     }
 
     override fun run() {
+        fakeEntityServer.update()
+
         if (++ticks % 20 * 60 * 5 == 0) {
             for (world in FarmInternal.manager.worlds) {
                 world.unloadChunks()
@@ -129,7 +134,7 @@ internal class CropTask : Runnable {
         FarmInternal.io.commit()
 
         FarmInternal.manager.timeViewers.values.removeIf {
-            if (!it.update(time, true)) {
+            if (!it.update(time)) {
                 it.remove()
                 true
             } else

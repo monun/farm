@@ -1,13 +1,18 @@
-package com.github.noonmaru.farm.internal
+package com.github.monun.farm.internal
 
-import com.github.noonmaru.farm.FarmManager
-import com.github.noonmaru.farm.internal.timer.CropTimeViewer
+import com.github.monun.farm.FarmManager
+import com.github.monun.farm.internal.timer.CropTimeViewer
+import com.github.monun.farm.plugin.FarmPlugin
+import com.github.monun.tap.fake.FakeEntityServer
 import com.google.common.collect.ImmutableList
 import org.bukkit.World
+import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Player
 import java.util.*
 
-class FarmManagerImpl : FarmManager {
+class FarmManagerImpl(
+    private val fakeEntityServer: FakeEntityServer
+) : FarmManager {
     private val worldsByBukkitWorld = IdentityHashMap<World, FarmWorldImpl>()
 
     override val worlds: List<FarmWorldImpl>
@@ -37,7 +42,12 @@ class FarmManagerImpl : FarmManager {
     }
 
     internal fun addTimer(player: Player, crop: FarmCropImpl) {
-        timeViewers.put(player, CropTimeViewer(player, crop).apply { show() })?.remove()
+        val fakeStand = fakeEntityServer.spawnEntity(
+            crop.block.location.apply { add(0.5, 0.75, 0.5) },
+            ArmorStand::class.java
+        )
+
+        timeViewers.put(player, CropTimeViewer(player, fakeStand, crop).apply { show() })?.remove()
     }
 
     internal fun removeTimer(player: Player) {

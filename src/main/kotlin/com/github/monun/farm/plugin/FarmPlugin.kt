@@ -1,10 +1,10 @@
-package com.github.noonmaru.farm.plugin
+package com.github.monun.farm.plugin
 
-import com.github.noonmaru.farm.CropType
-import com.github.noonmaru.farm.Farm
-import com.github.noonmaru.farm.command.FarmCommand
-import com.github.noonmaru.farm.internal.FarmInternal
-import com.github.noonmaru.kommand.kommand
+import com.github.monun.farm.CropType
+import com.github.monun.farm.Farm
+import com.github.monun.farm.command.FarmCommand
+import com.github.monun.farm.internal.FarmInternal
+import com.github.monun.kommand.kommand
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
@@ -16,17 +16,18 @@ class FarmPlugin : JavaPlugin() {
         CropType.load(File(dataFolder, "crops-config.yml"))
 
         for (type in CropType.types) {
-            println("${type.name} = ${type.duration}")
+            logger.info("${type.name} = ${type.duration}")
         }
-
 
         FarmInternal.initialize(this)
         Farm.manager = FarmInternal.manager
 
+        setupCommands()
+    }
+
+    private fun setupCommands() {
         kommand {
-            register("farm") {
-                FarmCommand.register(this)
-            }
+            FarmCommand.register(this)
         }
     }
 

@@ -1,18 +1,21 @@
-package com.github.noonmaru.farm.command
+package com.github.monun.farm.command
 
-import com.github.noonmaru.farm.CropType
-import com.github.noonmaru.kommand.KommandBuilder
-import com.github.noonmaru.kommand.KommandSyntaxException
+import com.github.monun.farm.CropType
+import com.github.monun.kommand.KommandBuilder
+import com.github.monun.kommand.KommandDispatcherBuilder
+import com.github.monun.kommand.KommandSyntaxException
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 
 object FarmCommand {
-    internal fun register(builder: KommandBuilder) {
-        builder.then("animate") {
-            require { this is Player }
-            executes { context ->
-                animate(context.sender as Player)
+    internal fun register(builder: KommandDispatcherBuilder) {
+        builder.register("farm") {
+            then("animate") {
+                require { this is Player }
+                executes { context ->
+                    animate(context.sender as Player)
+                }
             }
         }
     }

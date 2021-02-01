@@ -1,4 +1,4 @@
-package com.github.noonmaru.farm.internal
+package com.github.monun.farm.internal
 
 import org.bukkit.plugin.Plugin
 import java.io.File
@@ -51,7 +51,7 @@ class FarmIOSQLite(private val plugin: Plugin, file: File) : FarmIO {
     }
 
     private fun createTables() {
-        conn.createStatement().use { stmt ->
+        conn.createStatement().useAutoClose { stmt ->
             loadSqlList("create-tables").forEach { sql ->
                 stmt.execute(sql)
             }
@@ -99,7 +99,7 @@ class FarmIOSQLite(private val plugin: Plugin, file: File) : FarmIO {
         loadWorld.runCatching {
             runCatching {
                 setString(1, name)
-                executeQuery().use { resultSet ->
+                executeQuery().useAutoClose { resultSet ->
                     require(resultSet.next()) { "Not found world id in database for $name" }
 
                     idsByWorld[world] = resultSet.getInt("id")
@@ -161,7 +161,7 @@ class FarmIOSQLite(private val plugin: Plugin, file: File) : FarmIO {
                 setInt(4, minZ)
                 setInt(5, maxZ)
 
-                executeQuery().use { resultSet ->
+                executeQuery().useAutoClose { resultSet ->
                     while (resultSet.next()) {
                         val x = resultSet.getInt("x")
                         val y = resultSet.getInt("y")
@@ -186,11 +186,19 @@ class FarmIOSQLite(private val plugin: Plugin, file: File) : FarmIO {
     override fun close() {
         commit()
         conn.runCatching {
-            createStatement().use { stmt ->
+            createStatement().useAutoClose { stmt ->
                 stmt.execute(clearSQL)
             }
             commit()
             close()
         }.onFailure { exception -> exception.printStackTrace() }
+    }
+}
+
+private fun <T: AutoCloseable> T.useAutoClose(block: (T) -> Unit) {
+    try {
+        block.invoke(this)
+    } finally {
+        close()
     }
 }
