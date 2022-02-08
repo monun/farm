@@ -96,6 +96,7 @@ abstract class CropType(
         val DARK_OAK_TREE: CropType = Tree("Dark oak tree", Material.DARK_OAK_SAPLING, TreeType.DARK_OAK)
         val JUNGLE_TREE: CropType = Tree("Jungle tree", Material.JUNGLE_SAPLING, TreeType.SMALL_JUNGLE)
         val OAK_TREE: CropType = Tree("Oak tree", Material.OAK_SAPLING, TreeType.TREE)
+        val SPRUCE_TREE: CropType = Tree("Spruce tree", Material.SPRUCE_SAPLING, TreeType.REDWOOD)
 
         //mushrooms
         val BROWN_MUSHROOM: CropType = Tree("Brown mushroom", Material.BROWN_MUSHROOM, TreeType.BROWN_MUSHROOM)
@@ -121,6 +122,7 @@ abstract class CropType(
                 DARK_OAK_TREE,
                 JUNGLE_TREE,
                 OAK_TREE,
+                SPRUCE_TREE,
                 BROWN_MUSHROOM,
                 RED_MUSHROOM
             )
@@ -242,6 +244,8 @@ abstract class CropType(
 
         override val result: CropStage.Result = CropStage.result { block, _ ->
             val blockData = block.blockData
+            val underBlock = block.location.add(0.0,-1.0,0.0).block
+            val underBlockData = underBlock.blockData.clone()
             block.blockData = Material.AIR.createBlockData()
             if (!block.world.generateTree(block.location, treeType)) {
                 block.blockData = blockData
@@ -249,6 +253,8 @@ abstract class CropType(
                 val loc = block.location.add(0.5, 0.5, 0.5)
                 block.world.spawnParticle(Particle.SMOKE_LARGE, loc.x, loc.y, loc.z, 10, 0.1, 0.1, 0.1)
             }
+            if(underBlockData.material==Material.FARMLAND)
+                underBlock.blockData = underBlockData
         }
     }
 }
